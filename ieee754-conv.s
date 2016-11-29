@@ -36,6 +36,8 @@ loop_pow_ten:
 	SUB r11, r8, r7
 	LDR r8, =0x00000000
 	; r11 contains number of next loop iterations
+	; r2 contains lower half of the number
+	; TODO r8 will contain mantissa
 finish:
 	SWI 0x11		
 .data
