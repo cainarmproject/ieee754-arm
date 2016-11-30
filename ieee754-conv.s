@@ -67,6 +67,7 @@ next:
 	BCC next
 
 	MOV r5, r5, ROR#16
+	MOV r3, r6 ; save original value
 	LDR r6, =0
 	LDR r8, =0x1
 	MOV r9, r7
@@ -89,6 +90,10 @@ mask_set:
 	ADD r8, r4, r8
 	MOV r8, r8, LSL#23
 	ADD r0, r0, r8
+	; mask sign bit from original # and add to result
+	LDR r4, =0x80000000
+	AND r4, r4, r3
+	ADD r0, r4, r0
 finish:
 	SWI 0x11
 .data
