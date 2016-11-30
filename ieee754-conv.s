@@ -6,7 +6,8 @@
 .global _start
 	
 	;LDR r0, =0x5c035ba0 ;load literal like this example 23555.23456
-	LDR r0, =0x7FFFFFFF
+	;LDR r0, =0x00030001
+	LDR r0, =0x00060006
 	LDR r2, =0x0000ffff ; set the bits we want
 	LDR r3, =0xffff0000
 	AND r2, r0, r2
