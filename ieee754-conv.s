@@ -6,8 +6,10 @@
 .global _start
 
 	;LDR r0, =0x5c035ba0 ;load literal like this example 23555.23456
-	LDR r0, =0x00030001
-	LDR r2, =0x00000000
+	LDR r0, =0x80030001 ; -3.1
+	;LDR r0, =0x00030001
+	MOV r8, r0 ; save the original
+	BIC r0, r0, #0x80000000
 	;LDR r0, =0x00060006
 	;LDR r0, =0x00040020
 	LDR r2, =0x0000ffff ; set the bits we want
@@ -35,6 +37,7 @@ loop_pow_ten:
 	BLS loop_pow_ten
 
     ; now we have the power of 10 to compare against stored in r9
+	MOV r6, r8 ; save the original
 	LDR r8, =0x18 ; 24 in hex is 0x18, 24 not 23 because # of digits - 1
 	SUB r11, r8, r7
 	LDR r8, =0x00000000
@@ -48,7 +51,6 @@ loop_pow_ten:
 	MOV r2, r2, LSL r11
 
 	; r2, and r9
-	MOV r6, r0
 	MOV R1, R2
 	MOV R2, R9
 
@@ -91,8 +93,11 @@ mask_set:
 	ADD r8, r4, r8
 	MOV r8, r8, LSL#23
 	ADD r0, r0, r8
-	; mask sign bit from original # and add to result
-	
+	; mask sign bit from original # and or to result
+	LDR r6, =0x80000000
+	AND r6, r3, r6
+	ORR r0, r6, r0
+
 finish:
 	SWI 0x11
 .data
