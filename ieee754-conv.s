@@ -5,8 +5,9 @@
 .text
 .global _start
 
-	LDR r0, =0x5c035ba0 ;load literal like this example 23555.23456
-	;LDR r0, =0x00030001
+	;LDR r0, =0x5c035ba0 ;load literal like this example 23555.23456
+	LDR r0, =0x00030001
+	LDR r2, =0x00000000
 	;LDR r0, =0x00060006
 	;LDR r0, =0x00040020
 	LDR r2, =0x0000ffff ; set the bits we want
@@ -91,9 +92,7 @@ mask_set:
 	MOV r8, r8, LSL#23
 	ADD r0, r0, r8
 	; mask sign bit from original # and add to result
-	LDR r4, =0x80000000
-	AND r4, r4, r3
-	ADD r0, r4, r0
+	
 finish:
 	SWI 0x11
 .data
