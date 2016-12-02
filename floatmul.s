@@ -35,6 +35,14 @@ ieee754multiply:
    // CMP r4, #0
     //BNE mul_loop
 
+    //mult   ;Handle multiplication by repeatedly adding in a loop
+    //           ADD     R11, R11, R9
+    //            ADD     R8, R8, #1
+    //            CMP     R8, R10
+    //           BNE     mult
+    //            MOV     R8, #0  ; reset the multiply loop counter
+    //            B       multReturn
+
     AND r3, r1, r11
     AND r4, r2, r11
     ADD r7, r3, r4
