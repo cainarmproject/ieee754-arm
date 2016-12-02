@@ -28,7 +28,7 @@ addfloat:
     LDR r10, =0x00800000
     ORR r5, r5, r10             ; Add implied 1 to first fractional part
     ORR r6, r6, r10             ; Add implied 1 to second fractional part
-    MOV r6, r6, ASR r3          ; Shift r6 to the right by the difference in exponents
+    MOV r6, r6, LSR r3          ; Shift r6 to the right by the difference in exponents
 
     LDR r10, =0x80000000
     ANDS r0, r1, r10            ; Check MSB for negative bit
