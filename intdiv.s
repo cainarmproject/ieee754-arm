@@ -1,22 +1,22 @@
-@ FIR Filter
+@ fir filter
 .text
 .global _start
 	
-	LDR R1, =0x4000000
-	LDR R2, =0x64
+	ldr r1, =0x4000000
+	ldr r2, =0x64
 	
-	MOV R0, #0
-	MOV R3, #1
+	mov r0, #0
+	mov r3, #1
 start:
-	CMP R2, R1
-	MOVLS R2, R2, LSL#1
-	MOVLS R3, R3, LSL#1
-	BLS start
+	cmp r2, r1
+	movls r2, r2, lsl#1
+	movls r3, r3, lsl#1
+	bls start
 next:
-	CMP R1, R2
-	SUBCS R1, R1, R2
-	ADDCS R0, R0, R3
-	MOVS R3, R3, LSR#1
-	MOVCC R2, R2, LSR#1
-	BCC next
-	SWI 0x11
+	cmp r1, r2
+	subcs r1, r1, r2
+	addcs r0, r0, r3
+	movs r3, r3, lsr#1
+	movcc r2, r2, lsr#1
+	bcc next
+	swi 0x11
