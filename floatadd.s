@@ -2,8 +2,8 @@
 .text
 .global _start
 
-    LDR r1, =0xC0200000 ; 2.5 in IEEE754
-    LDR r2, =0xC1f40000 ; 30.5 in IEEE754
+    LDR r1, =0x40200000 ; 2.5 in IEEE754
+    LDR r2, =0x41f40000 ; 30.5 in IEEE754
 
 ; r0 = r1 + r2
 addfloat:
