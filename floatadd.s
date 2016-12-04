@@ -5,6 +5,13 @@
     ldr r1, =0x40200000 ; 2.5 in ieee754
     ldr r2, =0x41f40000 ; 30.5 in ieee754
 
+; r0 = r1 - r2
+subfloat:
+    ldr r10, =0x80000000
+    eor r2, r2, r10             ; Exclusive or r2 with 0x80000000 to toggle the sign bit
+    bl addfloat
+    swi 0x11
+
 ; r0 = r1 + r2
 addfloat:
     ldr r10, =0x7f800000
@@ -33,19 +40,25 @@ addfloat:
     ldr r10, =0x80000000
     ands r0, r1, r10            ; check msb for negative bit
     movne r0, r5                ; this "not equal" works because the "ands" will set the zero flag if the result is zero
+    stmnefd sp!, {lr}
     blne twos_complement        ; two's complement fractional first number if it's supposed to be negative
+    ldmnefd sp!, {lr}
     movne r5, r0
 
     ands r0, r2, r10             ; check msb for negative bit
     movne r0, r6
+    stmnefd sp!, {lr}
     blne twos_complement        ; two's complement fractional second number if it's supposed to be negative
+    ldmnefd sp!, {lr}
     movne r6, r0
 
     add r5, r5, r6              ; add the fractional portions. r5 contains the result.
 
     ands r0, r5, r10             ; check msb to see if the result is negative
     movne r0, r5
+    stmnefd sp!, {lr}
     blne twos_complement        ; two's complement result if negative
+    ldmnefd sp!, {lr}
     movne r5, r0
     ldrne r0, =0x80000000       ; put a 1 as result's msb if the result was negative
     moveq r0, #0                ; put a 0 as result's msb if the result was positive
@@ -74,7 +87,7 @@ count_sigbit_loop:
     and r5, r5, r10             ; get rid of implied 1 in fraction
     orr r0, r0, r5              ; attach fractional part
 
-    swi 0x11
+    mov pc, lr
 
 ; r0 = -r0
 twos_complement:
