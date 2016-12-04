@@ -1,10 +1,6 @@
 ; floatmul.s
 ; Authors: Evan Rittenhouse, Jacob Lutz, Nicholas Harman, Nisarga Patel
 
-; currently set to multiply 2.5 and 30.5
-; some bug in it, output is 38.0 when it should be 76.25
-; works with smaller numbers though, like 2.5*4.5 = 11.25
-
 @ FIR Filter
 .text
 .global _start
@@ -72,8 +68,6 @@ done:
     MOV r5, r5, LSL #23     ; shift exponent into its IEEE754 position
     ORR r0, r0, r5          ; merge exponent into the result register r0
     ORR r0, r0, r6          ; merge fraction into the result register r0
-
-    ;result should be 0x44bcaa40
 
 finish:
     SWI 0x11
