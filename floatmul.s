@@ -9,12 +9,15 @@
 .text
 .global _start
 
-    ;LDR r1, =0x40200000     ; 2.5 in IEEE754
+    ;LDR r1, =0x40900000     ; 4.5 in IEEE754
     ;LDR r2, =0x41f40000     ; 30.5 in IEEE754
 
     
-    LDR r1, =0xbfa00000     ; -1.25 in IEEE754
-    LDR r2, =0x41720000     ; 15.125
+    ;LDR r1, =0x40200000     ; 2.5 in IEEE754
+    ;LDR r2, =0x40900000     ; 4.5
+
+    LDR r1, =0xc2fa4000      ;-125.125
+    LDR r2, =0x42484000      ;50.0625
 
     LDR r10, =0x00800000    ; bitmask for adding/removing implied 1 to front of fraction 
     LDR r11, =0x80000000    ; bitmask for extracting sign bit
@@ -48,7 +51,7 @@ mul:
 ;if bit 48 from the multiplication is 1 then we need to shift right one and add one to the exponent 
 creatFraction:
     LDR r11,  =0x00008000    ; bitask for checking if bit 16 is a 1
-    ADDS r8, r6, r11         ; check to see if bit 16 of the hi bits 
+    ANDS r8, r6, r11         ; check to see if bit 16 of the hi bits 
     
     ; bit 48 of multiplication was a one so add one to the exponent and create fraction
     ADDNE r5, r5, #1         ; If NE is true that means the ANDS above resulted in a non-zero value indicating the 16th bit was a 1
