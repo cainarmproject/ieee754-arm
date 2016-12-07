@@ -36,9 +36,6 @@ check_against_seven:
 	blt calc_mantissa_if_less            ; Branch to mantissa calc less than
 	bgt calc_mantissa_if_greater         ; Branch to mantissa calc if gt
 	beq calc_bias_seven                  ; Calc bias if its seven
-check_if_negative:
-	cmp r1, #0xFFFFFFEF                  ; Check for the overflow
-	bgt calc_mantissa_if_negative        ; Negative exponent shift
 calc_mantissa_if_less:
 	mov r4, #7
 	add r5, r5, r1                       ; Calculate bias as 127 - exponent
@@ -49,14 +46,6 @@ calc_mantissa_if_greater:
 	add r5, r5, r1                       ; Calculate bias as 127 + exponent
 	sub r1, r1, #7                       ; Do exponent - 7 to get shift amt
 	mov r0, r0, lsr r1                   ; Shift right by value in r1
-	bl finalize_mantissa
-calc_mantissa_if_negative:
-	ldr r4, =0xFFFFFFFF                  ; Load max val
-	sub r1, r4, r1                       ; 0xFFFFFFFF - exponent
-	add r1, r1, #1
-	sub r5, r5, r1                       ; Calculate bias as 127 - exponent
-	add r1, r1, #7                       ; Add 7 per description
-	mov r0, r0, lsl r1                   ; Shift left by r1
 	bl finalize_mantissa
 calc_bias_seven:
 	add r5, r5, #7                       ; Calculate bias as 127 + 7
