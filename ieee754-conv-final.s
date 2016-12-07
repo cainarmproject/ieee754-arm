@@ -7,7 +7,7 @@
 ; 0.625 is 0x0000A000 and its IEEE 754 value is 0x3f200000
 ; ldr r0, =0x7FFF0000	    ; Loads dumb fmt number into mem
 
-ldr r0, =0x31110080										 ; Load number in dumb fmt to convert
+ldr r0, =0x31110080                    ; Load number in dumb fmt to convert
 mov r8, r0                             ; Save the original
 bic r0, r0, #0x80000000                ; Clears out first bit
 ldr r1, =0x40000000	                   ; Loads initial pos to check
