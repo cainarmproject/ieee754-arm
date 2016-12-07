@@ -44,12 +44,12 @@ calc_mantissa_if_less:
 	add r5, r5, r1                       ; Calculate bias as 127 - exponent
 	sub r1, r4, r1                       ; Do 7 - exponent to get shift amt
 	mov r0, r0, lsl r1                   ; Shift left by value in r1
-	BL finalize_mantissa
+	bl finalize_mantissa
 calc_mantissa_if_greater:
 	add r5, r5, r1                       ; Calculate bias as 127 + exponent
 	sub r1, r1, #7                       ; Do exponent - 7 to get shift amt
 	mov r0, r0, lsr r1                   ; Shift right by value in r1
-	BL finalize_mantissa
+	bl finalize_mantissa
 calc_mantissa_if_negative:
 	ldr r4, =0xFFFFFFFF                  ; Load max val
 	sub r1, r4, r1                       ; 0xFFFFFFFF - exponent
@@ -57,7 +57,7 @@ calc_mantissa_if_negative:
 	sub r5, r5, r1                       ; Calculate bias as 127 - exponent
 	add r1, r1, #7                       ; Add 7 per description
 	mov r0, r0, lsl r1                   ; Shift left by r1
-	BL finalize_mantissa
+	bl finalize_mantissa
 calc_bias_seven:
 	add r5, r5, #7                       ; Calculate bias as 127 + 7
 finalize_mantissa:
