@@ -12,13 +12,36 @@ main:
     mov r1, r0                             ; Move return value into r1
 
     stmfd sp!, {r1}                        ; Save the first return value on the stack
-    ldr r0, =0x0000A000A                   ; Load second value in dumb format
+    ldr r0, =0x0000A000                    ; Load second value in dumb format
     bl convert_ieee                        ; Convert second value to IEEE
     ldmfd sp!, {r1}                        ; Restore r1 value
-    mov r0, r2                             ; Move second converted value to r2. R1 and R2 are now operands
+    mov r2, r0                             ; Move second converted value to r2. R1 and R2 are now operands
 
     stmfd sp!, {r1-r2}
-    ; TODO add the other function calls
+    bl addfloat                            ; Add the two numbers
+    ldmfd sp!, {r1-r2}
+    stmfd sp!, {r0}                        ; Store the result on the stack
+
+
+    stmfd sp!, {r1-r2}
+    bl subfloat                            ; Subtract the two numbers
+    ldmfd sp!, {r1-r2}
+    stmfd sp!, {r0}                        ; Store the result on the stack
+
+    stmfd sp!, {r1-r2}
+    bl ieee754multiply                     ; Multiply the two numbers
+    ldmfd sp!, {r1-r2}
+    stmfd sp!, {r0}                        ; Store the result on the stack
+
+    fmsr s1, r1
+    fmsr s2, r2
+    fadds s0, s1, s2
+    fmrs r0, s0
+    fsubs s0, s1, s2
+    fmrs r1, s0
+    fmuls s0, s1, s2
+    fmrs r2, s0
+    stmfd sp!, {r0-r2}
 
     swi 0x11
 
