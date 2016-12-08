@@ -34,14 +34,14 @@ main:
     stmfd sp!, {r0}                        ; Store the result on the stack
 
     fmsr s1, r1
-    fmsr s2, r2
+    fmsr s2, r2                            ; Move operands into float registers
     fadds s0, s1, s2
-    fmrs r0, s0
+    fmrs r0, s0                            ; Do float add, move result to r0
     fsubs s0, s1, s2
-    fmrs r1, s0
+    fmrs r1, s0                            ; Do float subtract, move result to r1
     fmuls s0, s1, s2
-    fmrs r2, s0
-    stmfd sp!, {r0-r2}
+    fmrs r2, s0                            ; Do float multiply, move result to r2
+    stmfd sp!, {r0-r2}                     ; Store results on the stack
 
     swi 0x11
 
